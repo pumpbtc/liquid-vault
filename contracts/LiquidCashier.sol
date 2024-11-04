@@ -253,7 +253,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
         vault.burnShares(_msgSender(), sharesAmount);
         
         // Update pending info
-        uint256 feeExit = sharesAmount.mulDiv(feeRateExit, 10000);
+        uint256 feeExit = sharesAmount.mulDiv(feeRateExit, 10000, Math.Rounding.Ceil);
         uint256 assetAmount = oracle.shareToAsset(asset, sharesAmount - feeExit);
         pendingInfo[_msgSender()] = PendingInfo({
             shares: sharesAmount,
