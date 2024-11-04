@@ -343,6 +343,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
     }
 
     function setParameter(string memory key, uint256 value) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        collectFees();
         bytes32 keyHash = keccak256(abi.encodePacked(key));
         if (keyHash == keccak256("withdrawPeriod")) {
             withdrawPeriod = value;
@@ -365,6 +366,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
     }
 
     function setParameterCoSign(string memory key, uint256 value) public onlyRole(CO_SIGNER) {
+        collectFees();
         bytes32 keyHash = keccak256(abi.encodePacked(key));
         if (keyHash == keccak256("thirdPartyRatioManagement")) {
             thirdPartyRatioManagement = value;
@@ -386,14 +388,6 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
     function setFeeReceiverThirdParty(address account) public onlyRole(CO_SIGNER) {
         feeReceiverThirdParty = account;
         emit FeeReceiverUpdated("feeReceiverThirdParty", account);
-    }
-    
-    function setFeeManager(address account, bool status) public onlyRole(DEFAULT_ADMIN_ROLE) {
-        if (status) {
-            _grantRole(FEE_MANAGER_ROLE, account);
-        } else {
-            _revokeRole(FEE_MANAGER_ROLE, account);
-        }
     }
 
     function setCoSigner(address account, bool status) public onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -418,7 +412,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
      *      Both of them should be calculated with Math library, to both avoid overflow
      *       and truncation errors.
      */
-    function collectFees() public onlyRole(FEE_MANAGER_ROLE) {
+    function collectFees() public {
         // Check conditions
         require(feeReceiverDefault != address(0), "LIQUID_CASHIER: default fee receiver not set");
         require(feeReceiverThirdParty != address(0), "LIQUID_CASHIER: third-party fee receiver not set");
