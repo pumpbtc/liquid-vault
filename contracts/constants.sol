@@ -25,7 +25,7 @@ abstract contract Constants {
      *      recording SHARE's price in USD. Value:
      *      address(uint160(uint256(keccak256("LiquidOracle: STANDARD_ASSET"))))
      */
-    address public constant STANDARD_ASSET = 0xFA0FFaA48dfB36b79A84C4d591cC91bC304fA13f;
+    address public constant STANDARD_ASSET = 0x00f57FF25aD6A37f742bF4eC977A54C1ff5b3822;
 
     /**
      * @notice The `PRICE_UPDATER_ROLE` is used to update the prices of the supported assets.
