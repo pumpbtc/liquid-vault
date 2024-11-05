@@ -99,7 +99,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
         thirdPartyRatioPerformance = 0;
         thirdPartyRatioExit = 0;
 
-        lastMintShareTimestamp = block.timestamp;
+        lastMintShareTimestamp = 0;
         highestSharePrice = 0;
     }
 
@@ -419,11 +419,16 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
 
         // Dilution shares for management fee
         uint256 sharesTotalSupply = vault.totalSupply();
-        uint256 timeElapsed = block.timestamp - lastMintShareTimestamp;
-        uint256 feeManagement = sharesTotalSupply
-            .mulDiv(feeRateManagement, 10000)
-            .mulDiv(timeElapsed, 365 days);
-        lastMintShareTimestamp = block.timestamp;
+        uint256 feeManagement = 0;
+        if (lastMintShareTimestamp == 0) {
+            lastMintShareTimestamp = block.timestamp; // Skip the first time
+        } else {
+            uint256 timeElapsed = block.timestamp - lastMintShareTimestamp;
+            feeManagement = sharesTotalSupply
+                .mulDiv(feeRateManagement, 10000)
+                .mulDiv(timeElapsed, 365 days);
+            lastMintShareTimestamp = block.timestamp;
+        }
 
         // Dilution shares for performance fee
         uint256 currentPrice = oracle.fetchShareStandardPrice();
