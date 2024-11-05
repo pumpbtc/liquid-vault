@@ -420,7 +420,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
         // Dilution shares for management fee
         uint256 sharesTotalSupply = vault.totalSupply();
         uint256 feeManagement = 0;
-        if (lastMintShareTimestamp == 0) {
+        if (lastMintShareTimestamp == 0 && sharesTotalSupply != 0) {
             lastMintShareTimestamp = block.timestamp; // Skip the first time
         } else {
             uint256 timeElapsed = block.timestamp - lastMintShareTimestamp;
