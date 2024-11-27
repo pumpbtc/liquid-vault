@@ -16,22 +16,30 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
+    mainnet: {
+      url: process.env.RPC_MAINNET,
+      accounts: [
+        process.env.PK_FACTORY_OWNER!,
+        process.env.PK_VAULT_OWNER!,
+      ]
+    },
     sepolia: {
       url: process.env.RPC_SEPOLIA,
       accounts: [
-        process.env.PRIVATE_KEY_PUMPBTC!,
-        process.env.PRIVATE_KEY_TESTONLY2!,
+        process.env.PK_FACTORY_OWNER!,
+        process.env.PK_VAULT_OWNER!,
       ]
     },
     hardhat: {
       forking: {
         url: process.env.RPC_MAINNET!,
-        blockNumber: 21054403,
+        blockNumber: 21229800,
       }
     },
   },
   etherscan: {
     apiKey: {
+      mainnet: process.env.API_ETHERSCAN!,
       sepolia: process.env.API_ETHERSCAN!,
     }
   }
