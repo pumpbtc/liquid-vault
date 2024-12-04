@@ -352,6 +352,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
             } else if (keyHash == keccak256("feeRatePerformance")) {
                 feeRatePerformance = value;
             } else if (keyHash == keccak256("feeRateExit")) {
+                require(value <= feeRateInstant, "LIQUID_CASHIER: exit fee rate too high");
                 feeRateExit = value;
             } else if (keyHash == keccak256("feeRateInstant")) {
                 require(value >= feeRateExit, "LIQUID_CASHIER: instant fee rate too low");
