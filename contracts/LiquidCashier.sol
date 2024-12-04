@@ -74,9 +74,12 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
         address receiver1, uint256 amount1, 
         address receiver2, uint256 amount2, string feeType
     );
+    event FeesCollected(
+        uint256 feeManagement, uint256 feePerformance, 
+        uint256 thirdPartyRatioManagement, uint256 thirdPartyRatioPerformance
+    );
     event ParameterUpdated(string key, uint256 value);
     event FeeReceiverUpdated(string key, address value);
-
 
     // ======================= Modifier & Initializer ======================
 
@@ -449,6 +452,10 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
         if (feePerformance > 0) {
             _fixRatioDistributeFee(feePerformance, thirdPartyRatioPerformance, "performance fee");
         }
+        emit FeesCollected(
+            feeManagement, feePerformance, 
+            thirdPartyRatioManagement, thirdPartyRatioPerformance
+        );
     }
 
 }
