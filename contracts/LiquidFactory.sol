@@ -158,13 +158,13 @@ contract LiquidFactory is Ownable2StepUpgradeable {
     }
 
     function upgradeVault(address newImpl) public onlyOwner {
-        address oldImpl = beaconCashier.implementation();
+        address oldImpl = beaconVault.implementation();
         beaconVault.upgradeTo(newImpl);
         emit ContractUpgraded("LiquidVault", oldImpl, newImpl);
     }
 
     function upgradeOracle(address newImpl) public onlyOwner {
-        address oldImpl = beaconCashier.implementation();
+        address oldImpl = beaconOracle.implementation();
         beaconOracle.upgradeTo(newImpl);
         emit ContractUpgraded("LiquidOracle", oldImpl, newImpl);
     }
