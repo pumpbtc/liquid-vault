@@ -88,6 +88,8 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
         __Pausable_init();
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
 
+        require(_vault != address(0) && _oracle != address(0), "LIQUID_CASHIER: invalid address");
+
         vault = ILiquidVault(_vault);
         oracle = ILiquidOracle(_oracle);
 
@@ -385,11 +387,13 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
     }
 
     function setFeeReceiverDefault(address account) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(account != address(0), "LIQUID_CASHIER: invalid address");
         feeReceiverDefault = account;
         emit FeeReceiverUpdated("feeReceiverDefault", account);
     }
 
     function setFeeReceiverThirdParty(address account) public onlyRole(CO_SIGNER) {
+        require(account != address(0), "LIQUID_CASHIER: invalid address");
         feeReceiverThirdParty = account;
         emit FeeReceiverUpdated("feeReceiverThirdParty", account);
     }
