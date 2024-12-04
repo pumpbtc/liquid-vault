@@ -195,4 +195,14 @@ contract LiquidVault is AccessControlUpgradeable, ERC20Upgradeable, ILiquidVault
         }
     }
 
+    function grantRole(bytes32 role, address account) public override {
+        require(role == DEFAULT_ADMIN_ROLE, "LIQUID_VAULT: only DEFAULT_ADMIN_ROLE can be granted");
+        super.grantRole(role, account);
+    }
+
+    function revokeRole(bytes32 role, address account) public override {
+        require(role == DEFAULT_ADMIN_ROLE, "LIQUID_VAULT: only DEFAULT_ADMIN_ROLE can be revoked");
+        super.revokeRole(role, account);
+    }
+
 }
