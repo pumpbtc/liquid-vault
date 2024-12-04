@@ -85,6 +85,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
 
     function initialize(address _vault, address _oracle) public initializer {
         __AccessControl_init();
+        __Pausable_init();
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
 
         vault = ILiquidVault(_vault);
