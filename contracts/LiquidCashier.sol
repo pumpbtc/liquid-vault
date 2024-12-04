@@ -366,6 +366,7 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
     function setParameterCoSign(string memory key, uint256 value) public onlyRole(CO_SIGNER) {
         collectFees();
         bytes32 keyHash = keccak256(abi.encodePacked(key));
+        require(value <= 10000, "LIQUID_CASHIER: invalid third-party ratio");
         if (keyHash == keccak256("thirdPartyRatioManagement")) {
             thirdPartyRatioManagement = value;
         } else if (keyHash == keccak256("thirdPartyRatioPerformance")) {
