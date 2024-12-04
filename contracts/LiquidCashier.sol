@@ -280,8 +280,9 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
             "LIQUID_CASHIER: still pending"
         );
 
-        // Retrieve pending info
+        // Retrieve & Clear pending info
         PendingInfo memory info = pendingInfo[_msgSender()];
+        delete pendingInfo[_msgSender()];
 
         // Withdraw from the vault
         if (oracle.isSupportedAssetExternal(info.asset)) {
@@ -300,9 +301,6 @@ contract LiquidCashier is AccessControlUpgradeable, PausableUpgradeable, Constan
             
             emit CancelWithdraw(_msgSender(), info.timestamp);
         }
-
-        // Clear pending info
-        delete pendingInfo[_msgSender()];
     }
 
     /**
