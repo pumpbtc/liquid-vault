@@ -127,6 +127,8 @@ contract LiquidOracle is AccessControlUpgradeable, ILiquidOracle, Constants {
             IERC20(asset).totalSupply() != 0, 
             "LIQUID_ORACLE: invalid asset" // Ensure the asset is a valid ERC20 token
         );
+        assetPriceToShare[asset] = 0;
+        sharePriceToAsset[asset] = 0;
         isSupportedAsset[asset] = true;
         supportedAssetList.push(asset);
         emit AssetAdded(asset);
